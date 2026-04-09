@@ -4,12 +4,18 @@ let aiInstance: GoogleGenAI | null = null;
 
 const getAI = () => {
   if (!aiInstance) {
-    // Standard pattern for AI Studio: process.env.GEMINI_API_KEY is injected at runtime.
-    // We avoid build-time 'define' to let the platform's shim work.
-    const apiKey = process.env.GEMINI_API_KEY;
+    // Check both common secret names, prioritizing the one that isn't a placeholder
+    const key1 = process.env.GEMINI_API_KEY;
+    const key2 = process.env.GEMINI_API;
     
-    if (!apiKey || apiKey === "MY_GEMINI_API_KEY") {
-      throw new Error("Gemini API key not found. Please ensure it is configured in the AI Studio Secrets panel.");
+    const isPlaceholder = (k: string | undefined) => 
+      !k || k === "MY_GEMINI_API_KEY" || k === "undefined" || k === "AI Studio Free Tier" || k === "";
+
+    const apiKey = !isPlaceholder(key2) ? key2 : (!isPlaceholder(key1) ? key1 : undefined);
+
+    if (!apiKey) {
+      console.error("Gemini API key is missing or invalid. Key1:", key1, "Key2:", key2);
+      throw new Error("Gemini API key not found. Please ensure your 'GEMINI_API' secret is correctly set and click 'Apply changes' in the Secrets panel.");
     }
     aiInstance = new GoogleGenAI({ apiKey });
   }
