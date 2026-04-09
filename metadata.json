@@ -1,0 +1,8 @@
+{
+  "name": "AI Recruitment Agent",
+  "description": "An end-to-end AI-powered recruitment platform featuring resume analysis, automated scoring, interview scheduling, and a real-time AI interviewer.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ]
+}
