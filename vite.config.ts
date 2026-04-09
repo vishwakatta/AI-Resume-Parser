@@ -8,7 +8,6 @@ export default defineConfig(({mode}) => {
   return {
     plugins: [react(), tailwindcss()],
     define: {
-      'process.env.GEMINI_API_KEY': JSON.stringify(env.GEMINI_API_KEY || process.env.GEMINI_API_KEY),
       'process.env.SMTP_HOST': JSON.stringify(env.SMTP_HOST || process.env.SMTP_HOST),
       'process.env.SMTP_PORT': JSON.stringify(env.SMTP_PORT || process.env.SMTP_PORT),
       'process.env.SMTP_USER': JSON.stringify(env.SMTP_USER || process.env.SMTP_USER),
